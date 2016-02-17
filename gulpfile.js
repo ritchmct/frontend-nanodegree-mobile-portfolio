@@ -22,19 +22,13 @@ gulp.task('clean:dist', function() {
   return del.sync('dist');
 });
 
-// Compress HTML
-gulp.task('minify', function () {
-  return gulp.src('src/**/*.html')
-    .pipe(htmlmin({collapseWhitespace: true}))
-    .pipe(gulp.dest('dist'));
-});
-
 // Use "build" comments in html to minify css and js
 gulp.task('useref', function() {
     return gulp.src('src/**/*.html')
         .pipe(useref())
         .pipe(gulpIf('*.js', uglify()))
         .pipe(gulpIf('*.css', cssnano()))
+        .pipe(gulpIf('*.html', htmlmin({collapseWhitespace: true})))
         .pipe(gulp.dest('dist'))
 });
 
