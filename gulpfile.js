@@ -7,12 +7,13 @@ var useref = require('gulp-useref');
 var uglify = require('gulp-uglify');
 var cssnano = require('gulp-cssnano');
 var gulpIf = require('gulp-if');
+var inlineCss = require('gulp-inline-css');
 
 // Initiate local server
 gulp.task('browserSync', function() {
     browserSync.init({
         server: {
-            baseDir: 'src'
+            baseDir: 'dist'
         },
     })
 });
@@ -29,6 +30,13 @@ gulp.task('useref', function() {
         .pipe(gulpIf('*.js', uglify()))
         .pipe(gulpIf('*.css', cssnano()))
         .pipe(gulpIf('*.html', htmlmin({collapseWhitespace: true})))
+        .pipe(gulp.dest('dist'))
+});
+
+// Inline css in index.html
+gulp.task('inlinecss', function() {
+    return gulp.src('dist/index.html')
+        .pipe(inlineCss())
         .pipe(gulp.dest('dist'))
 });
 
@@ -50,5 +58,5 @@ gulp.task('default', function(callback) {
 });
 
 gulp.task('build', function(callback) {
-  runSequence('clean:dist', ['useref', 'fonts'], callback)
+  runSequence('clean:dist', ['useref', 'fonts'], 'inlinecss', callback)
 });
