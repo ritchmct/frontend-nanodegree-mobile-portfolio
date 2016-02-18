@@ -8,6 +8,7 @@ var uglify = require('gulp-uglify');
 var cssnano = require('gulp-cssnano');
 var gulpIf = require('gulp-if');
 var inlineCss = require('gulp-inline-css');
+var imageResize = require('gulp-image-resize');
 
 // Initiate local server
 gulp.task('browserSync', function() {
@@ -25,12 +26,22 @@ gulp.task('clean:dist', function() {
 
 // Use "build" comments in html to minify css and js
 gulp.task('useref', function() {
-    return gulp.src('src/**/*.html')
+    return gulp.src(['src/**/*.html', '!src/views/*.html'])
         .pipe(useref())
         .pipe(gulpIf('*.js', uglify()))
         .pipe(gulpIf('*.css', cssnano()))
         .pipe(gulpIf('*.html', htmlmin({collapseWhitespace: true})))
         .pipe(gulp.dest('dist'))
+});
+
+// Use "build" comments in html to minify css and js
+gulp.task('useref-views', function() {
+    return gulp.src('src/views/*.html')
+        .pipe(useref())
+        .pipe(gulpIf('*.js', uglify()))
+        .pipe(gulpIf('*.css', cssnano()))
+        .pipe(gulpIf('*.html', htmlmin({collapseWhitespace: true})))
+        .pipe(gulp.dest('dist/views'))
 });
 
 // Inline css in index.html
@@ -46,6 +57,18 @@ gulp.task('fonts', function() {
         .pipe(gulp.dest('dist/fonts'))
 });
 
+// Image resize
+gulp.task('image-resize', function() {
+    return gulp.src('src/**/{img,images}/**/*.{jpg,png}')
+        .pipe(imageResize({
+            imageMagick: true,
+            width: 100,
+            upscale: false
+        }))
+        .pipe(gulp.dest('dist'))
+});
+
+
 // Watch for changes and reload
 gulp.task('watch', function() {
     gulp.watch('src/**/*.html', browserSync.reload);
@@ -58,5 +81,5 @@ gulp.task('default', function(callback) {
 });
 
 gulp.task('build', function(callback) {
-  runSequence('clean:dist', ['useref', 'fonts'], 'inlinecss', callback)
+  runSequence('clean:dist', ['useref', 'useref-views', 'fonts', 'image-resize'], 'inlinecss', callback)
 });
