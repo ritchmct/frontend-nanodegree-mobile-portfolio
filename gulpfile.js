@@ -8,7 +8,7 @@ var uglify = require('gulp-uglify');
 var cssnano = require('gulp-cssnano');
 var gulpIf = require('gulp-if');
 var inlineCss = require('gulp-inline-css');
-var imageResize = require('gulp-image-resize');
+var responsive = require('gulp-responsive');
 
 // Initiate local server
 gulp.task('browserSync', function() {
@@ -25,6 +25,7 @@ gulp.task('clean:dist', function() {
 });
 
 // Use "build" comments in html to minify css and js
+// Exclude views directory and process separately
 gulp.task('useref', function() {
     return gulp.src(['src/**/*.html', '!src/views/*.html'])
         .pipe(useref())
@@ -34,7 +35,8 @@ gulp.task('useref', function() {
         .pipe(gulp.dest('dist'))
 });
 
-// Use "build" comments in html to minify css and js
+// Use "build" comments in html to minify css and js under views directory
+// useref didn't put the css and js files in the correct location
 gulp.task('useref-views', function() {
     return gulp.src('src/views/*.html')
         .pipe(useref())
@@ -57,13 +59,32 @@ gulp.task('fonts', function() {
         .pipe(gulp.dest('dist/fonts'))
 });
 
-// Image resize
+
 gulp.task('image-resize', function() {
-    return gulp.src('src/**/{img,images}/**/*.{jpg,png}')
-        .pipe(imageResize({
-            imageMagick: true,
-            width: 100,
-            upscale: false
+    // return gulp.src('src/**/{img,images}/**/*.{jpg,png}')
+    return gulp.src('src/**/*.{jpg,png}')
+        .pipe(responsive({
+            // Resize all JPG images to three different sizes: 200, 500, and 630 pixels
+            '**/*.{jpg,png}': [{
+                width: 200,
+                rename: { suffix: '-200px' }
+            }, {
+                width: 500,
+                rename: { suffix: '-500px' }
+            }, {
+                // Copy original image
+                rename: { suffix: '' }
+            }],
+        }, {
+            // Global configuration for all images
+            // The output quality for JPEG, WebP and TIFF output formats
+            quality: 70,
+            // Use progressive (interlace) scan for JPEG and PNG output
+            progressive: true,
+            // Strip all metadata
+            withMetadata: false,
+            skipOnEnlargement: true,
+            errorOnEnlargement: false
         }))
         .pipe(gulp.dest('dist'))
 });
