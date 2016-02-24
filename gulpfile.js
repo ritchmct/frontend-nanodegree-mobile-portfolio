@@ -64,15 +64,19 @@ gulp.task('image-resize', function() {
     // return gulp.src('src/**/{img,images}/**/*.{jpg,png}')
     return gulp.src('src/**/*.{jpg,png}')
         .pipe(responsive({
-            // Resize all JPG images to three different sizes: 200, 500, and 630 pixels
+            // Resize pizzeria.jpg to three sizea
+            '**/pizzeria.jpg': [{
+                width: 100,
+                rename: { suffix: '-100px' }
+            }, {
+                width: 300,
+                rename: { suffix: '-300px' }
+            }, {
+                width: 1024,
+                rename: { suffix: '-1024px' }
+            }],
+            // Copy all other files
             '**/*.{jpg,png}': [{
-                width: 200,
-                rename: { suffix: '-200px' }
-            }, {
-                width: 500,
-                rename: { suffix: '-500px' }
-            }, {
-                // Copy original image
                 rename: { suffix: '' }
             }],
         }, {
