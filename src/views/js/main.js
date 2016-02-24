@@ -421,29 +421,24 @@ var resizePizzas = function(size) {
 
   changeSliderLabel(size);
 
-   // Returns the width in pixels for the resized pizzas. Called by changePizzaSlices(size).
+   // Returns the width as a percentage for resized pizzas. Called by changePizzaSizes(size).
   function determineWidth (size) {
-     var windowWidth = document.querySelector("#randomPizzas").offsetWidth;
 
     // TODO: change to 3 sizes? no more xl?
     // Changes the slider value to a percent width
     function sizeSwitcher (size) {
       switch(size) {
         case "1":
-          return 0.25;
+          return 25 + "%";
         case "2":
-          return 0.3333;
+          return 33.33 + "%";
         case "3":
-          return 0.5;
+          return 50 + "%";
         default:
           console.log("bug in sizeSwitcher");
       }
     }
-
-    var newSize = sizeSwitcher(size);
-    var width = newSize * windowWidth + 'px';
-
-    return width;
+    return sizeSwitcher(size);
   }
 
   // Iterates through pizza elements on the page and changes their widths
@@ -500,8 +495,9 @@ function updatePositions() {
   window.performance.mark("mark_start_frame");
 
   var items = document.querySelectorAll('.mover');
+  var scrollTop = document.body.scrollTop;
   for (var i = 0; i < items.length; i++) {
-    var phase = Math.sin((document.body.scrollTop / 1250) + (i % 5));
+    var phase = Math.sin((scrollTop / 1250) + (i % 5));
     items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
   }
 
