@@ -105,6 +105,8 @@ gulp.task('default', function(callback) {
   runSequence(['browserSync', 'watch'], callback)
 });
 
+// useref and useref-views should not be run in parallel
+// inlinecss has to be run after useref as it acts on index.html in dist created by useref
 gulp.task('build', function(callback) {
-  runSequence('clean:dist', ['useref', 'useref-views', 'fonts', 'image-resize'], 'inlinecss', callback)
+  runSequence('clean:dist', ['useref', 'fonts', 'image-resize'], ['useref-views', 'inlinecss'], callback)
 });
