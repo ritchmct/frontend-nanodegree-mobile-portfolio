@@ -400,19 +400,21 @@ var pizzaElementGenerator = function(i) {
 
 // resizePizzas(size) is called when the slider in the "Our Pizzas" section of the website moves.
 var resizePizzas = function(size) {
+  "use strict"; // Added 25/02/2016 - RD
   window.performance.mark("mark_start_resize");   // User Timing API function
 
   // Changes the value for the size of the pizza above the slider
+  var pizzaSize = document.getElementById("pizzaSize"); // Add var 25/02/2016 RD
   function changeSliderLabel(size) {
     switch(size) {
       case "1":
-        document.querySelector("#pizzaSize").innerHTML = "Small";
+        pizzaSize.innerHTML = "Small";
         return;
       case "2":
-        document.querySelector("#pizzaSize").innerHTML = "Medium";
+        pizzaSize.innerHTML = "Medium";
         return;
       case "3":
-        document.querySelector("#pizzaSize").innerHTML = "Large";
+        pizzaSize.innerHTML = "Large";
         return;
       default:
         console.log("bug in changeSliderLabel");
@@ -444,8 +446,10 @@ var resizePizzas = function(size) {
   // Iterates through pizza elements on the page and changes their widths
   function changePizzaSizes(size) {
     var newWidth = determineWidth(size);
-    for (var i = 0; i < document.querySelectorAll(".randomPizzaContainer").length; i++) {
-      document.querySelectorAll(".randomPizzaContainer")[i].style.width = newWidth;
+    // Change to getElementsByClassName and define variables outside of loop - 25/02/2016 RD
+    var randomPizzaContainer = document.getElementsByClassName("randomPizzaContainer");
+    for (var i = 0, len = randomPizzaContainer.length; i < len; i++) {
+      randomPizzaContainer[i].style.width = newWidth;
     }
   }
 
@@ -461,8 +465,8 @@ var resizePizzas = function(size) {
 window.performance.mark("mark_start_generating"); // collect timing data
 
 // This for-loop actually creates and appends all of the pizzas when the page loads
+var pizzasDiv = document.getElementById("randomPizzas"); // Moved outside of loop - 25/02/2016 RD
 for (var i = 2; i < 100; i++) {
-  var pizzasDiv = document.getElementById("randomPizzas");
   pizzasDiv.appendChild(pizzaElementGenerator(i));
 }
 
@@ -491,23 +495,25 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 
 // Moves the sliding background pizzas based on scroll position
 function updatePositions() {
+  "use strict" // added 25/02/2016 RD
   frame++;
   window.performance.mark("mark_start_frame");
 
-  var items = document.querySelectorAll('.mover');
+  var items = document.getElementsByClassName('mover'); // Changed from querySelectorAll 25/02/2016 RD
   // Moving query of scrollTop out of the loop as a big impact (> 20ms to < 1ms)
   // as it avoids the force synchronous layout
   var scrollTop = document.body.scrollTop / 1250;
   // Avoiding the repeated recalculation of the phase values only has a small impact (< 0.1ms)
   // and probably isn't worth the trouble
   var phaseArray = [];
-
   for (var j = 0; j < 5; j++) {
     phaseArray[j] = Math.sin(scrollTop + (j % 5));
   }
 
-  for (var i = 0; i < items.length; i++) {
-    var phase = phaseArray[i % 5];
+
+  var phase; // Create variable outside of loop - 25/02/2016 RD
+  for (var i = 0, len = items.length; i < len; i++) { // Added len var - 25/02/2016 RD
+    phase = phaseArray[i % 5];
     items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
   }
 
@@ -526,17 +532,23 @@ window.addEventListener('scroll', updatePositions);
 
 // Generates the sliding pizzas when the page loads.
 document.addEventListener('DOMContentLoaded', function() {
+  "use strict" // added 25/02/2016
   var cols = 8;
   var s = 256;
-  for (var i = 0; i < 200; i++) {
-    var elem = document.createElement('img');
+  // Determine the right number of pizzas depending on the screen height of the device being used
+  var numberOfPizzas = Math.ceil(document.documentElement.clientHeight/s) * cols; // Added var - 25/02/2016 RD
+  console.log(numberOfPizzas);
+  var movingPizzasDiv = document.getElementById("movingPizzas1"); // Added var and moved out of loop - 25/02/2016
+  var elem; // Added var outside of loop - 25/02/2016
+  for (var i = 0; i < numberOfPizzas; i++) {
+    elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza.png";
     elem.style.height = "100px";
     elem.style.width = "73.333px";
     elem.basicLeft = (i % cols) * s;
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
-    document.querySelector("#movingPizzas1").appendChild(elem);
+    movingPizzasDiv.appendChild(elem);
   }
   updatePositions();
 });
