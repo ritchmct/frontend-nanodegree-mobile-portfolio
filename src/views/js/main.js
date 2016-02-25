@@ -495,9 +495,15 @@ function updatePositions() {
   window.performance.mark("mark_start_frame");
 
   var items = document.querySelectorAll('.mover');
-  var scrollTop = document.body.scrollTop;
+  // Moving query of scrollTop out of the loop as a big impact
+  // as it avoids the
+  var scrollTop = document.body.scrollTop / 1250;
+  var phaseArray = [];
+  for (var i = 0; i < 5; i++) {
+    phaseArray[i] = Math.sin(scrollTop + (i % 5));
+  }
   for (var i = 0; i < items.length; i++) {
-    var phase = Math.sin((scrollTop / 1250) + (i % 5));
+    var phase = phaseArray[i % 5];
     items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
   }
 
