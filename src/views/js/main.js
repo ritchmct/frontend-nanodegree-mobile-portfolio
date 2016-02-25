@@ -537,7 +537,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var s = 256;
   // Determine the right number of pizzas depending on the screen height of the device being used
   var numberOfPizzas = Math.ceil(document.documentElement.clientHeight/s) * cols; // Added var - 25/02/2016 RD
-  console.log(numberOfPizzas);
+  console.log("Number of moving pizzas created: " + numberOfPizzas);
   var movingPizzasDiv = document.getElementById("movingPizzas1"); // Added var and moved out of loop - 25/02/2016
   var elem; // Added var outside of loop - 25/02/2016
   for (var i = 0; i < numberOfPizzas; i++) {

@@ -35,5 +35,10 @@ To optimize *views/pizza.html*, you will need to modify *views/js/main.js* until
   * Changed the `changePizzaSizes` function to call `determineWidth`
 2. Improved the scroll speed by improving movement of the background pizzas:
   * Changed `updatePositions` function so that the value of `scrollTop` is only queried once outside of the loop
+  * Reduced the number of pizzas being created by calculating the correct number required depending on the screen height of the device being used
+3. Other improvements:
+  * Replaced `querySelector` and `querySelectorAll` with `getElementById` and `getElementsByClassName` where appropriate
+  * Added `len` variable to for loops where appropriate
+  * Added `transform: translateZ(0)`and `backface-visibility: hidded` to class mover in *views/css/style.css*
 
 
