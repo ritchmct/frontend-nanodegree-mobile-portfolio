@@ -495,13 +495,17 @@ function updatePositions() {
   window.performance.mark("mark_start_frame");
 
   var items = document.querySelectorAll('.mover');
-  // Moving query of scrollTop out of the loop as a big impact
-  // as it avoids the
+  // Moving query of scrollTop out of the loop as a big impact (> 20ms to < 1ms)
+  // as it avoids the force synchronous layout
   var scrollTop = document.body.scrollTop / 1250;
+  // Avoiding the repeated recalculation of the phase values only has a small impact (< 0.1ms)
+  // and probably isn't worth the trouble
   var phaseArray = [];
+
   for (var i = 0; i < 5; i++) {
     phaseArray[i] = Math.sin(scrollTop + (i % 5));
   }
+
   for (var i = 0; i < items.length; i++) {
     var phase = phaseArray[i % 5];
     items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
