@@ -21,6 +21,7 @@ Achieve a PageSpeed score of 90 on Mobile and Desktop for index.html
 The above changes result in a PageSpeed Insights score of **96/100 Mobile** and **97/100 Desktop**
 
 The active **dist** site can be viewed [here](http://ritchmct.github.io/frontend-nanodegree-mobile-portfolio/dist/index.html)
+
 And the PageSpeed Insight result [here](https://developers.google.com/speed/pagespeed/insights/?url=http%3A%2F%2Fritchmct.github.io%2Ffrontend-nanodegree-mobile-portfolio%2Fdist%2Findex.html)
 
 ### Part 2: Optimize Frames per Second in pizza.html
@@ -33,6 +34,6 @@ To optimize *views/pizza.html*, you will need to modify *views/js/main.js* until
   * Changed `determineDx` function to `determineWidth` and made it return just the new percentage width required without doing any width queries
   * Changed the `changePizzaSizes` function to call `determineWidth`
 2. Improved the scroll speed by improving movement of the background pizzas:
-  * Changed `updatePositions` function so that the value of scrollTop is only queried once outside of the loop
+  * Changed `updatePositions` function so that the value of `scrollTop` is only queried once outside of the loop
 
 
