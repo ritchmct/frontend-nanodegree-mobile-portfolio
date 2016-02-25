@@ -45,32 +45,34 @@
           <p>Making mobile apps isn't so hard after all.</p>
         </li>
         <li>
+          // Use of sizes and srcset allows a higher resolution image to be used with devices that have a device pixel ratio > 1
           <img style="width: 100px;" sizes="100px" src="views/images/pizzeria-100px.jpg" srcset="views/images/pizzeria-100px.jpg 100w, views/images/pizzeria-300px.jpg 300w" alt="Picture of pizzeria">
           <a href="views/pizza.html">Cam's Pizzeria</a>
           <p>Who wants a performant pizza?</p>
         </li>
       </ul>
     </div>
-    <footer>
-      <p>&copy; Web Performance 2014 <span id="crp-stats"></span></p>
-    </footer>
-    <script>
-    (function(w, g) {
-      w['GoogleAnalyticsObject'] = g;
-      w[g] = w[g] || function() {
-        (w[g].q = w[g].q || []).push(arguments)
-      };
-      w[g].l = 1 * new Date();
-    })(window, 'ga');
+  </div>
+  <footer>
+    <p>&copy; Web Performance 2014 <span id="crp-stats"></span></p>
+  </footer>
+  <script>
+  (function(w, g) {
+    w['GoogleAnalyticsObject'] = g;
+    w[g] = w[g] || function() {
+      (w[g].q = w[g].q || []).push(arguments)
+    };
+    w[g].l = 1 * new Date();
+  })(window, 'ga');
 
-    // TODO: replace with your Google Analytics profile ID.
-    ga('create', 'UA-XXXX-Y');
-    ga('send', 'pageview');
-    </script>
-    <script async src="http://www.google-analytics.com/analytics.js"></script>
-    <!-- build:js js/perf.min.js async-->
-    <script async src="js/perfmatters.js"></script>
-    <!-- endbuild -->
+  // TODO: replace with your Google Analytics profile ID.
+  ga('create', 'UA-XXXX-Y');
+  ga('send', 'pageview');
+  </script>
+  <script async src="http://www.google-analytics.com/analytics.js"></script>
+  <!-- build:js js/perf.min.js async-->
+  <script async src="js/perfmatters.js"></script>
+  <!-- endbuild -->
 </body>
 
 </html>
