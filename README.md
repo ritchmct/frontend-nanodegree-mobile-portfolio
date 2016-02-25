@@ -39,6 +39,6 @@ To optimize *views/pizza.html*, you will need to modify *views/js/main.js* until
 3. Other improvements:
   * Replaced `querySelector` and `querySelectorAll` with `getElementById` and `getElementsByClassName` where appropriate
   * Added `len` variable to for loops where appropriate
-  * Added `transform: translateZ(0)`and `backface-visibility: hidded` to class mover in *views/css/style.css*
+  * Added `transform: translateZ(0)`and `backface-visibility: hidden` to class mover in *views/css/style.css*
 
 
