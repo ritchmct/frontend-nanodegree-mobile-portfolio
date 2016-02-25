@@ -16,7 +16,7 @@ gulp.task('browserSync', function() {
         server: {
             baseDir: 'dist'
         },
-    })
+    });
 });
 
 // Cleaning
@@ -32,7 +32,7 @@ gulp.task('useref', function() {
         .pipe(gulpIf('*.js', uglify()))
         .pipe(gulpIf('*.css', cssnano()))
         .pipe(gulpIf('*.html', htmlmin({collapseWhitespace: true})))
-        .pipe(gulp.dest('dist'))
+        .pipe(gulp.dest('dist'));
 });
 
 // Use "build" comments in html to minify css and js under views directory
@@ -43,20 +43,20 @@ gulp.task('useref-views', function() {
         .pipe(gulpIf('*.js', uglify()))
         .pipe(gulpIf('*.css', cssnano()))
         .pipe(gulpIf('*.html', htmlmin({collapseWhitespace: true})))
-        .pipe(gulp.dest('dist/views'))
+        .pipe(gulp.dest('dist/views'));
 });
 
 // Inline css in index.html
 gulp.task('inlinecss', function() {
     return gulp.src('dist/index.html')
         .pipe(inlineCss())
-        .pipe(gulp.dest('dist'))
+        .pipe(gulp.dest('dist'));
 });
 
 // Copy fonts
 gulp.task('fonts', function() {
     return gulp.src('src/fonts/**/*')
-        .pipe(gulp.dest('dist/fonts'))
+        .pipe(gulp.dest('dist/fonts'));
 });
 
 
@@ -90,7 +90,7 @@ gulp.task('image-resize', function() {
             skipOnEnlargement: true,
             errorOnEnlargement: false
         }))
-        .pipe(gulp.dest('dist'))
+        .pipe(gulp.dest('dist'));
 });
 
 
@@ -102,11 +102,11 @@ gulp.task('watch', function() {
 });
 
 gulp.task('default', function(callback) {
-  runSequence(['browserSync', 'watch'], callback)
+  runSequence(['browserSync', 'watch'], callback);
 });
 
 // useref and useref-views should not be run in parallel
 // inlinecss has to be run after useref as it acts on index.html in dist created by useref
 gulp.task('build', function(callback) {
-  runSequence('clean:dist', ['useref', 'fonts', 'image-resize'], ['useref-views', 'inlinecss'], callback)
+  runSequence('clean:dist', ['useref', 'fonts', 'image-resize'], ['useref-views', 'inlinecss'], callback);
 });

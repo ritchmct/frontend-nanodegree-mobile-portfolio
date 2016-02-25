@@ -502,8 +502,8 @@ function updatePositions() {
   // and probably isn't worth the trouble
   var phaseArray = [];
 
-  for (var i = 0; i < 5; i++) {
-    phaseArray[i] = Math.sin(scrollTop + (i % 5));
+  for (var j = 0; j < 5; j++) {
+    phaseArray[j] = Math.sin(scrollTop + (j % 5));
   }
 
   for (var i = 0; i < items.length; i++) {
